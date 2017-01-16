@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+<head>
+    <title>Test Datepicker</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="layout/styles/pagesStyle.css" rel="stylesheet" type="text/css" media="all">
+    <link rel="stylesheet" type="text/css"
+          href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="demo/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="demo/css/prism.css"/>
+    <link rel="stylesheet" type="text/css" href="demo/css/calendar-style.css"/>
+    <link rel="stylesheet" type="text/css" href="src/css/pignose.calendar.css"/>
+    <style type="text/css">
+
+        html, body {
+            position: relative;
+            height: 100%;
+        }
+
+        #wrapper {
+            padding-bottom: 40px;
+        }
+
+        .center {
+            text-align: center;
+        }
+
+        .header {
+            max-width: 1200px;
+            width: 80%;
+            margin: 0 auto;
+            padding-top: 40px;
+            padding-bottom: 40px;
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        .header h1 {
+            margin-bottom: 20px;
+            font-size: 24px;
+            font-weight: 400;
+            font-family: 'Raleway', 'helvetica', 'sans-serif';
+            color: #333333;
+        }
+
+        .article {
+            max-width: 1200px;
+            width: 80%;
+            margin: 0 auto;
+            margin-top: 0px;
+            padding-top: 20px;
+            border-top: 1px solid #efefef;
+            font-family: 'Raleway', 'helvetica', 'sans-serif';
+            text-align: center;
+        }
+
+        .article h3 {
+            margin-bottom: 40px;
+        }
+
+        .article h5 {
+            margin-top: 60px;
+            font-size: 130%;
+            font-weight: 600;
+        }
+
+        .article table {
+            font-size: 115%;
+            text-align: left;
+        }
+
+        .article pre {
+            font-size: 115%;
+        }
+
+        .article ul {
+            display: inline-block;
+            font-size: 115%;
+            font-weight: 600;
+            margin: 20px 0;
+        }
+
+        .article ul li {
+            margin: 10px 0;
+        }
+
+        .input-calendar {
+            display: block;
+            width: 100%;
+            max-width: 360px;
+            margin: 0 auto;
+            height: 3.2em;
+            line-height: 3.2em;
+            font: inherit;
+            padding: 0 1.2em;
+            border: 1px solid #d8d8d8;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, .25);
+            -o-box-shadow: 0 4px 12px rgba(0, 0, 0, .25);
+            -moz-box-shadow: 0 4px 12px rgba(0, 0, 0, .25);
+            -webkit-box-shadow: 0 4px 12px rgba(0, 0, 0, .25);
+        }
+
+        .guide {
+            padding: 1.2em 1.6em;
+            max-width: 360px;
+            margin: 1.6em auto;
+            background-color: #f8f8f8;
+            line-height: 2;
+        }
+
+        .guide h5 {
+            margin: 0;
+            padding: 0;
+            font-size: 110%;
+        }
+
+        .guide .guide-dates {
+            margin-top: 1.3em;
+            text-align: center;
+        }
+
+        .guide .guide-dates span {
+            display: inline-block;
+            vertical-align: middle;
+            width: 33%;
+        }
+
+        .btn-calendar {
+            display: block;
+            width: 100%;
+            max-width: 360px;
+            height: 3.2em;
+            line-height: 3.2em;
+            background-color: #52555a;
+            margin: 0 auto;
+            font-weight: 600;
+            color: #ffffff !important;
+            text-decoration: none !important;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, .25);
+            -o-box-shadow: 0 4px 12px rgba(0, 0, 0, .25);
+            -moz-box-shadow: 0 4px 12px rgba(0, 0, 0, .25);
+            -webkit-box-shadow: 0 4px 12px rgba(0, 0, 0, .25);
+        }
+
+        .btn-calendar:hover {
+            background-color: #5a6268;
+        }
+
+        .box {
+            display: none;
+            max-width: 360px;
+            margin: 0 auto;
+            font-family: arabicFont;
+            font-weight: 600;
+            margin-top: 1em;
+            padding: 1.6em;
+            background-color: #fafafa;
+            border: 1px solid #d8d8d8;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, .25);
+            -o-box-shadow: 0 4px 12px rgba(0, 0, 0, .25);
+            -moz-box-shadow: 0 4px 12px rgba(0, 0, 0, .25);
+            -webkit-box-shadow: 0 4px 12px rgba(0, 0, 0, .25);
+            overflow: hidden;
+        }
+
+        .box .active-dates .label {
+            margin: 0 .4em;
+            white-space: normal;
+            word-break: break-word;
+            line-height: 2.4;
+        }
+
+        .box.box-languages .label {
+            font-size: 100%;
+        }
+    </style>
+    <script type="text/javascript" src="demo/js/jquery.latest.min.js"></script>
+    <script type="text/javascript" src="demo/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="demo/js/prism.min.js"></script>
+    <script type="text/javascript" src="vender/moment.min.js"></script>
+    <script type="text/javascript" src="src/js/pignose.calendar.js"></script>
+    <script type="text/javascript">
+        //<![CDATA[
+        $(function () {
+            function onClickHandler(date, obj) {
+                /**
+                 * @date is an array which be included dates(clicked date at first index)
+                 * @obj is an object which stored calendar interal data.
+                 * @obj.calendar is an element reference.
+                 * @obj.storage.activeDates is all toggled data, If you use toggle type calendar.
+                 */
+
+                var $calendar = obj.calendar;
+                var $box = $calendar.parent().siblings('.box').show();
+                var text = 'لقد اخترت يوم    ';
+
+                if (date[0] !== null) {
+                    text += date[0].format('YYYY-MM-DD');
+                }
+
+                if (date[0] !== null && date[1] !== null) {
+                    text += ' ~ ';
+                } else if (date[0] === null && date[1] == null) {
+                    text += 'nothing';
+                }
+
+                if (date[1] !== null) {
+                    text += date[1].format('YYYY-MM-DD');
+                }
+
+                $box.text(text);
+            }
+
+            // Default Calendar
+            $('.calendar').pignoseCalendar({
+                select: onClickHandler
+            });
+
+            // Input Calendar
+            $('.input-calendar').pignoseCalendar({
+                buttons: true, // It means you can give bottom button controller to the modal which be opened when you click.
+            });
+
+            // Calendar modal
+            var $btn = $('.btn-calendar').pignoseCalendar({
+                modal: true, // It means modal will be showed when you click the target button.
+                buttons: true,
+                apply: function (date) {
+                    $btn.next().show().text('You applied date ' + date + '.');
+                }
+            });
+
+            // Color theme type Calendar
+            $('.calendar-dark').pignoseCalendar({
+                theme: 'dark', // light, dark
+                select: onClickHandler
+            });
+
+            // Multiple picker type Calendar
+            $('.multi-select-calendar').pignoseCalendar({
+                multiple: true,
+                select: onClickHandler
+            });
+
+            // Toggle type Calendar
+            $('.toggle-calendar').pignoseCalendar({
+                toggle: true,
+                select: function (date, obj) {
+
+                    var $target = obj.calendar.parent().next().show().html('You selected ' +
+                            (date[0] === null ? 'null' : date[0].format('YYYY-MM-DD')) +
+                            '.' +
+                            '<br /><br />' +
+                            '<strong>Active dates</strong><br /><br />' +
+                            '<div class="active-dates"></div>');
+
+                    for (var idx in obj.storage.activeDates) {
+                        var date = obj.storage.activeDates[idx];
+                        if (typeof date !== 'string') {
+                            continue;
+                        }
+                        $target.find('.active-dates').append('<span class="label label-default">' + date + '</span>');
+                    }
+                }
+            });
+
+            // Disabled date settings.
+            !(function () {
+                // IIFE Closure
+                var today = new Date();
+                var times = 30;
+
+                var disabledDates = [today.getFullYear() + "-" + (today.getMonth() + 1) + "-" + today.getDate()];
+
+                var $dates = $('.disabled-dates-calendar').siblings('.guide').find('.guide-dates');
+                for (var idx in disabledDates) {
+                    $dates.append('<span>' + disabledDates[idx] + '</span>');
+                }
+
+                $('.disabled-dates-calendar').pignoseCalendar({
+                    theme: 'dark',
+                    select: onClickHandler,
+                    disabledDates: disabledDates
+                });
+            }());
+
+
+        });
+        //]]>
+    </script>
+</head>
+
+<body id="top" dir="ltr">
+
+<div class="wrapper row1" style="font-family: arabicFont;">
+    <header id="header" class="hoc clear">
+        <!-- ################################################################################################ -->
+        <div id="logo" class="fl_right">
+            <h1><a href="index.html" style="text-decoration: none;">LOGO</a></h1>
+        </div>
+        <nav id="mainav" class="fl_left" style="font-size:150%;">
+            <ul class="clear">
+                <!--<li><a class="drop" href="#">أطباء</a></li>-->
+                <li><a href="#" style="text-decoration: none;">نحن</a></li>
+                <li><a href="#" style="text-decoration: none;">أطباء</a></li>
+                <li><a href="#" style="text-decoration: none;">تخصصات</a></li>
+                <li><a href="index.html" style="text-decoration: none;">الرئيسية</a></li>
+            </ul>
+        </nav>
+
+        <!-- ################################################################################################ -->
+    </header>
+</div>
+
+
+<div class="article" dir="rtl">
+
+    <div style=" margin-right: -140%; margin-top: 0%; width: 40%; display: inline-block; clear: both;">
+    <h3 style="font-family: arabicFont; display: inline-flex;">اختر ميعاد</h3>
+
+        <div class="disabled-dates-calendar" style="margin-left: 0%;"></div>
+        <div class="box" style="clear: both; margin-left: 0%;"></div>
+    </div>
+
+    <select class="dropdownlist" style="font-family: arabicFont; position: relative; margin-right: 65%; margin-top: 10%;">
+        <option value="volvo">اختر الوقت</option>
+        <option value="saab">8:30</option>
+        <option value="mercedes">8:30</option>
+        <option value="audi">8:30</option>
+    </select>
+</div>
+
+
+
+</body>
+</html>
