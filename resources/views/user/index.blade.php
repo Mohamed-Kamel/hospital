@@ -5,14 +5,119 @@
     <title>Hospital</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <link href="layout/styles/layout.css" rel="stylesheet" type="text/css" media="all">
+    <link href="{!! asset('assets/layout/styles/layout.css')!!}" rel="stylesheet" type="text/css" media="all">
+    <script type="text/javascript" src="{!! asset('assets/jquery-3.1.1.min.js')!!}"></script>
+    <script>
+        
+        $(function(){
+            //The places List
+            $('#fields').on('change', function(){
+            	var fieldValue = $(this).val();
+                $.ajax({
+                    type: "GET",
+                    url: "/places",
+                    data: {field_id:fieldValue},
+                    success:function(data){
+                        if(data.length > 0){
+                            $('#places').attr('disabled', false);
+                            $('#places').empty();
+                            $('#places').html('<option>اختر مكان</option>');
+                            $('#places').each(function(){
+                                if (this.tagName=='SELECT') {
+                                    var selectElement = this;
+                                    $.each(data,function(index, optionData){
+                                        var option = new Option(optionData.place_name,
+                                        optionData.place_id);
+                                        selectElement.add(option);
+                                    });
+                                }
+                            });
+                            $('#doctors').attr('disabled', true);
+                            $('#doctors').empty();
+                            $('#doctors').html('<option>اختر دكتور</option>');
+                        }else{
+                            $('#places').attr('disabled', false);
+                            $('#places').empty();
+                            $('#places').html('<option>اختر مكان</option>');
+                            $('#doctors').attr('disabled', true);
+                            $('#doctors').empty();
+                            $('#doctors').html('<option>اختر دكتور</option>');
+                        }
+                        //Nice Work Do loop of it and remove the disabled
+                        
+                    },
+                    error:function(result){
+                        //console.log(result);
+                    }
+                });
+                
+            });
+            //The Doctors List
+            $('#places').on('change', function(){
+            	var fieldValue = $('#fields').val();
+                var placeValue = $(this).val();
+                $.ajax({
+                    type: "GET",
+                    url: "/doctors",
+                    data: {field_id:fieldValue, place_id:placeValue},
+                    success:function(data){
+                        if(data.length > 0){
+                            $('#doctors').attr('disabled', false);
+                            $('#doctors').empty();
+                            $('#doctors').html('<option>اختر دكتور</option>');
+                            $('#doctors').each(function(){
+                                if (this.tagName=='SELECT') {
+                                    var selectElement = this;
+                                    $.each(data,function(index, optionData){
+                                        var option = new Option(optionData.doctor_name,
+                                        optionData.doctor_id);
+                                        selectElement.add(option);
+                                    });
+                                }
+                            });
+                        }else{
+                            $('#doctors').attr('disabled', true);
+                            $('#doctors').empty();
+                            $('#doctors').html('<option>اختر دكتور</option>');
+                        }
+                        //Nice Work Do loop of it and remove the disabled
+                        
+                    },
+                    error:function(result){
+                        console.log(result);
+                    }
+                });
+                
+            });
+            
+        });
+
+        
+        function submitValues(){
+            
+            var fieldValue = $('#fields').val();
+            var placeValue = $('#places').val();
+            var doctorValue = $('#doctors').val();
+            var token = $('_token').val();
+            $.ajax({
+                type: 'POST',
+                url: '/date',
+                data:{_token:token, field_id:fieldValue, place_id:placeValue, doctor_id:doctorValue}
+            });
+
+        }
+        
+
+
+    </script>
+
 </head>
 <body id="top" dir="ltr">
 <!-- ################################################################################################ -->
 <!-- ################################################################################################ -->
 <!-- ################################################################################################ -->
 <!-- Top Background Image Wrapper -->
-<div class="bgded overlay" style="background-image:url(images/01.png);">
+<div class="bgded overlay" style="background-image:url({!! asset('assets/images/01.png')!!});">
     <!-- ################################################################################################ -->
     <div class="wrapper row1" style="background-color: transparent;">
         <header id="header" class="hoc clear">
@@ -42,32 +147,30 @@
             <ul class="slides">
                 <li>
                     <article dir="rtl">
-                        <form action="#" method="post">
-                            <div class="mainRectangle">
-                                <select class="dropdownlist">
-                                    <option value="volvo">اختر تخصص</option>
-                                    <option value="saab">عيون</option>
-                                    <option value="mercedes">اسنان</option>
-                                    <option value="audi">حلبسة</option>
-                                </select>
-                                <!--<footer><a class="btn" href="fields.html" target="_blank">إحجز ميعاد</a></footer>-->
+                        {!! Form::open(['method'=> 'post', 'url' => 'date']) !!}
+                        <div class="mainRectangle">
+                            <select id="fields" class="dropdownlist">
+                                <option>اختر تخصص</option>
+                                @if(isset($fields) && $fields != null)
+                                    @foreach($fields as $field)
+                                        <option value="{!! $field->field_id !!}">{!! $field->field_name !!}</option>
+                                    @endforeach
+                                @endif
+                            </select>
+                            <!--<footer><a class="btn" href="fields.html" target="_blank">إحجز ميعاد</a></footer>-->
 
-                                <select class="dropdownlist">
-                                    <option value="volvo">اختر مكان</option>
-                                    <option value="saab">هناك</option>
-                                    <option value="mercedes">هنا</option>
-                                    <option value="audi">على بعد</option>
-                                </select>
+                            <select id="places" class="dropdownlist" disabled="disabled">
+                                <option>اختر مكان</option>
 
-                                <select class="dropdownlist">
-                                    <option value="volvo">اختر دكتور</option>
-                                    <option value="saab">حمادة</option>
-                                    <option value="mercedes">درش</option>
-                                    <option value="audi">أبو الشوق</option>
-                                </select>
-                                <input type="submit" value="حجز ميعاد" name="reserve" id="button"/>
-                            </div>
-                        </form>
+                            </select>
+
+                            <select id="doctors" class="dropdownlist" disabled="disabled">
+                                <option>اختر دكتور</option>
+                                
+                            </select>
+                            <input type="submit" value="حجز ميعاد" name="reserve" id="button"/>
+                        </div>
+                        {!! Form::close() !!}
                         <h6 style="font-size: 130%">عيادتى اسهل و اسرع طريقة لحجز دكتورك من اى مكان</h6>
                     </article>
                 </li>
@@ -160,9 +263,10 @@
 <!-- ################################################################################################ -->
 <a id="backtotop" href="#top"><i class="fa fa-chevron-up"></i></a>
 <!-- JAVASCRIPTS -->
-<script src="layout/scripts/jquery.min.js"></script>
-<script src="layout/scripts/jquery.backtotop.js"></script>
-<script src="layout/scripts/jquery.mobilemenu.js"></script>
-<script src="layout/scripts/jquery.flexslider-min.js"></script>
+
+
+<script src="{!! asset('assets/layout/scripts/jquery.backtotop.js')!!}"></script>
+<script src="{!! asset('assets/layout/scripts/jquery.mobilemenu.js')!!}"></script>
+<script src="{!! asset('assets/layout/scripts/jquery.flexslider-min.js')!!}"></script>
 </body>
 </html>
